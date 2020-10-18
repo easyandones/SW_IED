@@ -118,7 +118,13 @@ float USS_measure(int TRIG, int ECHO)
   digitalWrite(TRIG, LOW);
 
   reading = pulseIn(ECHO, HIGH, timeout) * scale; // unit: mm
-  if(reading < dist_min || reading > dist_max) reading = 0.0; // return 0 when out of range.
+  if(reading < dist_min || reading > dist_max) {
+    reading = 0.0; // return 0 when out of range.
+    digitalWrite(PIN_LED, HIGH);
+  }
+  else {
+    digitalWrite(PIN_LED, LOW);
+  }
 
   if(reading == 0.0) reading = dist_prev;
   else dist_prev = reading;
